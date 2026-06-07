@@ -1799,7 +1799,7 @@ export default function App() {
 
       {/* Solid footer with design properties */}
       <footer className="mt-12 border-t border-zinc-900 py-6 px-4 pb-2 text-center bg-zinc-950/80">
-        <div className="max-w-2xl mx-auto space-y-3 flex flex-col items-center">
+        <div className="max-w-2xl mx-auto space-y-1 flex flex-col items-center">
           <img 
             onClick={() => {
               setLogoClicks(prev => {
@@ -1813,10 +1813,10 @@ export default function App() {
             }}
             src="https://i.postimg.cc/Hxw9J7r5/20260606-132813.png" 
             alt="Logo" 
-            className="h-12 w-auto object-contain opacity-85 cursor-pointer hover:opacity-100 active:scale-95 transition-all select-none"
+            className="h-12 w-auto object-contain opacity-85 select-none"
             referrerPolicy="no-referrer"
           />
-          <div className="text-zinc-400 font-bengali text-sm pt-1 select-none font-medium">
+          <div className="text-zinc-400 font-bengali text-sm select-none font-medium">
             ©২০২৬ শুভ স্ট্রিম এইচডি
           </div>
         </div>
