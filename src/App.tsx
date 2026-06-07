@@ -42,7 +42,7 @@ import { CHANNELS_DATA } from './data';
 import Hls from 'hls.js';
 
 // Firebase Integrations
-import { auth, db, handleFirestoreError, OperationType, signInWithPopup, signOut, googleProvider } from './firebase';
+import { auth, appletAuth, db, handleFirestoreError, OperationType, signInWithPopup, signOut, googleProvider, signInWithCredential, GoogleAuthProvider } from './firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { collection, doc, onSnapshot, setDoc, addDoc, deleteDoc, query, where, orderBy } from 'firebase/firestore';
 
@@ -270,6 +270,14 @@ export default function App() {
       if (result.user.email !== 'shuvojahedurrahman29@gmail.com') {
         setAdminLoginError('অনুমোদিত অ্যাডমিন অ্যাকাউন্ট নয়!');
         await signOut(auth);
+        await signOut(appletAuth);
+      } else {
+        // Since we are also using applet database for data persistence,
+        // we must sign in to the appletAuth instance as well with the google credentials.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        if (credential) {
+          await signInWithCredential(appletAuth, credential);
+        }
       }
     } catch (err: any) {
       console.error(err);
@@ -1984,6 +1992,7 @@ export default function App() {
                       <button
                         onClick={async () => {
                           await signOut(auth);
+                          await signOut(appletAuth);
                           setFallbackAdminSignedIn(false);
                           setIsAdminDashboardOpen(false);
                         }}

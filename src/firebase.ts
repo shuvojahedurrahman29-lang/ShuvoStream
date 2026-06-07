@@ -23,6 +23,7 @@ const userFirebaseConfig = {
 // Initialize app for firestore database (using the default applet config)
 const appletApp = initializeApp(firebaseConfig, "applet");
 export const db = getFirestore(appletApp, firebaseConfig.firestoreDatabaseId); /* CRITICAL: The app will break without this line */
+export const appletAuth = getAuth(appletApp);
 
 // Initialize app for authentication (using the user's custom config)
 const userApp = initializeApp(userFirebaseConfig);
@@ -35,8 +36,9 @@ isSupported().then((supported) => {
   }
 });
 
+import { signInWithCredential } from 'firebase/auth';
 export const googleProvider = new GoogleAuthProvider();
-export { signInWithPopup, signOut };
+export { signInWithPopup, signOut, signInWithCredential, GoogleAuthProvider };
 
 // Relational DB test on load as recommended
 import { doc, getDocFromServer } from 'firebase/firestore';
