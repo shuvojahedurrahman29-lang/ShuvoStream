@@ -1,0 +1,81 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net - catch-all deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Allow connection test check
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+             request.auth.token.email == "shuvojahedurrahman29@gmail.com" &&
+             request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Validation for Channel
+    function isValidChannel(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.name is string && data.name.size() <= 128 &&
+             data.logo is string && data.logo.size() <= 1000000 &&
+             data.group is string && data.group.size() <= 128 &&
+             data.url is string && data.url.size() <= 2048 &&
+             data.createdAt is timestamp;
+    }
+
+    // Validation for Banner
+    function isValidBanner(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.title is string && data.title.size() <= 256 &&
+             data.image is string && data.image.size() <= 2000000 && // allow up to 2MB for base64 image data url
+             (!('link' in data) || (data.link is string && data.link.size() <= 128)) &&
+             data.createdAt is timestamp;
+    }
+
+    // Validation for Notification
+    function isValidNotification(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.title is string && data.title.size() <= 256 &&
+             data.message is string && data.message.size() <= 2048 &&
+             (!('image' in data) || (data.image is string && data.image.size() <= 2000000)) &&
+             data.active is bool &&
+             data.createdAt is timestamp;
+    }
+
+    // Collection matches
+    match /channels/{channelId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(channelId) && isValidChannel(request.resource.data) && request.resource.data.id == channelId;
+      allow update: if isAdmin() && isValidId(channelId) && isValidChannel(request.resource.data) && request.resource.data.id == channelId;
+      allow delete: if isAdmin() && isValidId(channelId);
+    }
+
+    match /banners/{bannerId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(bannerId) && isValidBanner(request.resource.data) && request.resource.data.id == bannerId;
+      allow update: if isAdmin() && isValidId(bannerId) && isValidBanner(request.resource.data) && request.resource.data.id == bannerId;
+      allow delete: if isAdmin() && isValidId(bannerId);
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(notificationId) && isValidNotification(request.resource.data) && request.resource.data.id == notificationId;
+      allow update: if isAdmin() && isValidId(notificationId) && isValidNotification(request.resource.data) && request.resource.data.id == notificationId;
+      allow delete: if isAdmin() && isValidId(notificationId);
+    }
+  }
+}

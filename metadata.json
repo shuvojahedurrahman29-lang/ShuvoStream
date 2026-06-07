@@ -1,0 +1,6 @@
+{
+  "name": "Live TV Streaming Platform",
+  "description": "A highly polished, high-fidelity live television streaming player supporting 53 channels, custom resolution selectors, simulation viewports, and fast channel discoverability.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

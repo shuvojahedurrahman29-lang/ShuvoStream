@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@100..800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Anek Bangla', 'Inter', sans-serif;
+  --font-bengali: 'Anek Bangla', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --color-brand-red: #E50914;
+  --color-brand-dark: #000000;
+  --color-brand-zinc: #0F0F10;
+}
+
+@layer utilities {
+  /* Class to hide scrollbars while preserving scroll functionality */
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hidden {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+/* Let the ● LIVE badge pulsate beautifully */
+@keyframes pulse-live {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.08);
+  }
+}
+
+.animate-pulse-live {
+  animation: pulse-live 1.8s infinite ease-in-out;
+}
+
+html, body {
+  background-color: #0F0F10;
+  color: #FFFFFF;
+}

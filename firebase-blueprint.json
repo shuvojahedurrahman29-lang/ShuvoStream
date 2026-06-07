@@ -1,0 +1,59 @@
+{
+  "entities": {
+    "channel": {
+      "title": "Channel",
+      "description": "Dynamic TV channel added by admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "logo": { "type": "string" },
+        "group": { "type": "string" },
+        "url": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "logo", "group", "url", "createdAt"]
+    },
+    "banner": {
+      "title": "Banner",
+      "description": "Dynamic slider banner home page added by admin",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "image": { "type": "string" },
+        "link": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "image", "createdAt"]
+    },
+    "notification": {
+      "title": "Notification",
+      "description": "Dynamic popup notifications for users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "image": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "message", "active", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/channels/{channelId}": {
+      "schema": "channel",
+      "description": "Collection of dynamic channels added by admin"
+    },
+    "/banners/{bannerId}": {
+      "schema": "banner",
+      "description": "Collection of dynamic hero banners uploaded by admin"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "notification",
+      "description": "Collection of push/pop notifications triggered by admin"
+    }
+  }
+}
