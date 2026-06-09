@@ -532,6 +532,13 @@ export default function App() {
       return;
     }
 
+    // Check for HTTPS vs HTTP mixed content warning on browser/mobile
+    if (window.location.protocol === 'https:' && activeChannel.url.startsWith('http://')) {
+      setStreamError("আপনার ব্রাউজারে নিরাপত্তাজনিত কারণে 'HTTP' লাইভ চ্যানেল প্লে করা ব্লক করা হয়েছে। এটি একটি HTTPS ওয়েবসাইটে 'Mixed Content' নিরাপত্তা সমস্যা। সমাধান পেতে অনুগ্রহ করে ব্রাউজার সেটিংসে গিয়ে Insecure Content পারমিশন Allow দিন অথবা অন্য কোনো HTTPS চ্যানেল প্লে করুন।");
+      setIsStreamLoading(false);
+      return;
+    }
+
     let hls: Hls | null = null;
 
     if (Hls.isSupported()) {
